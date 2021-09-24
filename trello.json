@@ -1,0 +1,58 @@
+{
+	"name": "Fitting Home",
+	"logo": "./assets/Fitting_Home_logo.png",
+	"members": [
+
+	],
+	"deliverables": [
+		{
+			"name": "Méthodologie"
+		},
+		{
+			"name": "Serveur Express"
+		},
+		{
+			"name": "Front Admin"
+		},
+		{
+			"name": "PLD Builder",
+			"sections": [
+				{
+					"name": "Recherche",
+					"stories": [
+						{
+							"name": "Choisir les bons outils",
+							"as": "Membre de l'EIP",
+							"wantTo": "Choisir des outils adaptés à la création d'un PLD",
+							"description": "Nous utilisions Google Docs pour tenir à jour le PLD mais rapidement la multiplication des pages, la difficulté à naviguer entres elles et l’aspect très statique d’un tel document nous a poussé à nous orienter vers un autre service.",
+							"DoD": [
+								"Le service doit respecter un ensemble de critères importants:",
+								"  être simple d’accès et ceux sur tous les appareils (ordinateur, téléphone, tablette)",
+								"  présenter une interface clair et scalable dans le temps",
+								"  permettre de modifier sa partie sans impacter celle des autres",
+								"  permettre d’ajouter des informations à nos parties sans qu’elle soit présente dans le PLD",
+								"  créer un pdf complet du pld en une commande"
+							],
+							"estimatedTime": 3
+						},
+						{
+							"name": "Environnement de dev",
+							"as": "Membre de l'EIP",
+							"wantTo": "Avoir un environnement de développement correct dans le langage choisi pour commencer à réaliser le livrable",
+							"description": "Faire de la veille sur les méthodes utilisées pour scrapper des sites et construire des pdf et s’orienter vers le langage le plus approprié.",
+							"DoD": [
+								"Sélectionner la ou les technologies à utiliser (NodeJs et/ou Python)",
+								"Sélectionner les bibliothèques qui permettront de réaliser le scrapping et la construction du pdf",
+								"Suivre une série de vidéo pour comprendre le scrapping (cf. https://www.youtube.com/channel/UCpznBDLHVbQckog8ujh2tPQ)"
+							],
+							"estimatedTime": 1
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Livrable trop grand"
+		}
+	]
+}

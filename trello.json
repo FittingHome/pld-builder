@@ -1,6 +1,7 @@
 {
+	"promotionYear": 2023,
 	"name": "Fitting Home",
-	"logo": "./assets/Fitting_Home_logo.png",
+	"logo": "./assets/logo.png",
 	"members": [
 
 	],
@@ -36,7 +37,7 @@
 							"estimatedTime": 3
 						},
 						{
-							"name": "Environnement de dev",
+							"name": "Environnement de developpement",
 							"as": "Membre de l'EIP",
 							"wantTo": "Avoir un environnement de développement correct dans le langage choisi pour commencer à réaliser le livrable",
 							"description": "Faire de la veille sur les méthodes utilisées pour scrapper des sites et construire des pdf et s’orienter vers le langage le plus approprié.",
@@ -48,11 +49,75 @@
 							"estimatedTime": 1
 						}
 					]
+				},
+				{
+					"name": "PDF Creator",
+					"stories": [
+						
+					]
 				}
 			]
 		},
 		{
-			"name": "Livrable trop grand"
+			"name": "Livrable trop grand",
+			"sections": [
+				{
+					"name": "Authentification",
+					"stories": [
+						{
+							"name": "Inscription sécurisé avec chiffrement"
+						},
+						{
+							"name": "Connexion"
+						},
+						{
+							"name": "Réseaux sociaux"
+						},
+						{
+							"name": "Récupération de mot de passe"
+						}
+					]
+				},
+				{
+					"name": "Profil",
+					"stories": [
+						{
+							"name": "Informations principales"
+						},
+						{
+							"name": "Avatar"
+						}
+					]
+				},
+				{
+					"name": "Storytime",
+					"stories": [
+						{
+							"name": "Gestion de story"
+						},
+						{
+							"name": "Story photo"
+						},
+						{
+							"name": "Story vidéo"
+						}
+					]
+				},
+				{
+					"name": "Technique",
+					"stories": [
+						{
+							"name": "Mise en place de la base de données"
+						},
+						{
+							"name": "Configuration de l’outil d’intégration continue"
+						},
+						{
+							"name": "Script de déploiement"
+						}
+					]
+				}
+			]
 		}
 	]
 }

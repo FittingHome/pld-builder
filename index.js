@@ -1,7 +1,7 @@
 const fs = require('fs');
 const { exit } = require('process');
 
-const log = require('./src/log');
+const log = require('./src/utils/log');
 const {
 	PDFDocument,
 	StandardFonts,
@@ -18,11 +18,9 @@ const {
 	fill,
 	popGraphicsState,
 } = require('pdf-lib');
-const { optionalAppend, rgbCustom, drawTextCenter } = require('./src/utils');
-const { drawPldFlowchart } = require('./src/drawFlowchart');
 
-const { drawPld } = require('./src/drawPld');
-const { savePld } = require('./src/savePld');
+const { drawPld } = require('./src/draw/drawPld');
+const { savePld } = require('./src/save/savePld');
 
 const elements = {
 	name:	{ r: 91, g: 155, b: 213 },
@@ -38,6 +36,7 @@ const elements = {
 async function buildPld(pldData, { date, version }) {
 	const nbDeliverables = pldData.deliverables.length;
 	log.trace({ nbDeliverables });
+
 
 	const pdfDoc = await PDFDocument.create()
 	const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica)

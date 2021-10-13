@@ -1,5 +1,6 @@
 const { rgb } = require('pdf-lib')
-const { rgbCustom, drawTextCenter, breakLinesPdf, computeHorizontalChartDimension } = require('./utils')
+const { rgbCustom, breakLinesPdf, computeHorizontalChartDimension } = require('../utils')
+const { drawTextCenter } = require('./drawTextCenter')
 
 const elements = {
 	app: { r: 52, g: 89, b: 156 },
@@ -39,7 +40,6 @@ function drawFlowchartRectangle(page, {text, font, isMainRectangle, x, y, rectan
 		font,
 		fontSize: height / fontSizeRatio,
 		maxWidth: width,
-		// debug: true
 	})
 }
 

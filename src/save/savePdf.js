@@ -1,7 +1,7 @@
 const fs = require('fs');
 const { PDFDocument } = require('pdf-lib');
-const { optionalAppend } = require('./utils');
-const log = require('./log')
+const { optionalAppend } = require('../utils');
+const log = require('../utils/log')
 
 /**
  * @param {import('pdf-lib').PDFDocument} pdfDoc

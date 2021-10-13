@@ -1,10 +1,11 @@
 const { PageSizes } = require('pdf-lib');
 const { drawPldFlowchart } = require('./drawFlowchart')
 const { drawPldDeliveryCard } = require('./drawDeliveryCard')
-const { drawTextCenter, embedImg } = require('./utils')
+const { embedImg } = require('../utils')
+const { drawTextCenter } = require('./drawTextCenter')
 const chalk = require('chalk')
 const fs = require('fs')
-const log = require('./log')
+const log = require('../utils/log')
 
 
 /**
@@ -25,7 +26,6 @@ async function drawMainPage(pdfDoc, font, { name, image }) {
 		y: height - height / 10,
 		font,
 		fontSize: 30,
-		debug: true
 	})
 
 	let imgDims = pdfImg.scale(1)

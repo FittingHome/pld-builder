@@ -26,81 +26,6 @@ function rgbCustom(e) {
 		(e.b ? e.b : 0) / 255);
 }
 
-const centerOptions = Object.freeze({
-	HORIZONTALLY: 1,
-	VERTICALLY: 2,
-	BOTH: 3
-})
-
-/**
- * It draws text centered from the x and y position
- * @param {import('pdf-lib').PDFPage} page 
- * @param {string} text
- * @param {object} _
- * @param {number} _.x center x position, if not supplied its equal to the middle of the page
- * @param {number} _.y center y position, if not supplied its equal to the middle of the page
- * @param {number} _.fontSize
- * @param {number} _.maxWidth
- * @param {number} _.lineHeight
- * @param {import('pdf-lib').RGB} _.color
- * @param {import('pdf-lib').PDFFont} _.font
- * @param {boolean} _.debug
- * @param {number} _.centerOption
- */
-function drawTextCenter(page, text, { x, y, color, font, fontSize, maxWidth, lineHeight, debug, centerOption }) {
-	const textShrinkHeight = font.heightAtSize(fontSize, {descender: false})
-	const textHeight = font.heightAtSize(fontSize, {descender: true})
-
-	x = x !== undefined ? x : page.getWidth() / 2
-	y = y !== undefined ? y : page.getHeight() / 2
-	color = color ? color : rgb(0, 0, 0)
-	lineHeight = lineHeight ? lineHeight : 1.14
-	centerOption = centerOption !== undefined ? centerOption : centerOptions.BOTH
-
-	text = breakLinesPdf(text, font, fontSize, maxWidth)
-	const paragraphHeight = (text.length - 1) * (textHeight * lineHeight ) + textHeight
-
-	for (let i = text.length - 1; i >= 0; i--) {
-		const paragraphWidth = font.widthOfTextAtSize(text[i], fontSize)
-
-		const pX = centerOption === centerOptions.VERTICALLY
-			? x
-			: (x - paragraphWidth / 2)
-
-		const pyAdd = (text.length - i - 1) * (lineHeight * textHeight)
-		const pY = centerOption === centerOptions.HORIZONTALLY
-			? y + pyAdd
-			: y + pyAdd - paragraphHeight / 2
-
-		const descenderHeight = textHeight - textShrinkHeight
-
-		page.drawText(text[i], {
-			x: pX,
-			y: pY + (descenderHeight / 2),
-			color,
-			font,
-			size : fontSize,
-		})
-
-		if (debug) {
-			page.drawRectangle({
-				x: pX,
-				y: pY,
-				borderWidth: 1,
-				borderColor: rgb(0,0,1),
-				width: paragraphWidth,
-				height: textHeight,
-			})
-		}
-	}
-
-	if (debug) {
-		page.drawSquare({
-			x, y, size: 1, color: rgb(1, 0, 0)
-		})
-	}
-}
-
 /**
  * 
  * @param {string} text 
@@ -209,12 +134,10 @@ const warning = chalk.hex('#FFA500')
 module.exports = {
 	optionalAppend,
 	rgbCustom,
-	drawTextCenter,
 	breakLinesPdf,
 	embedImg,
 
 	warning,
-	centerOptions,
 
 	// For testing purposes
 	stringIsUrl,

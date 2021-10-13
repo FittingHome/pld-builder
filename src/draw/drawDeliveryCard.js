@@ -1,7 +1,9 @@
-const { rgbCustom, warning, drawTextCenter, centerOptions } = require('./utils')
+const { rgbCustom, warning } = require('../utils')
+const { drawTextCenter, centerOptions } = require('./drawTextCenter')
 const chalk = require('chalk')
-const { rgb } = require('pdf-lib')
-const log = require('./log')
+const { rgb, drawText } = require('pdf-lib')
+const log = require('../utils/log')
+const { breakLinesPdf } = require('../utils')
 
 const elements = {
 	shadow: { r: 31, g: 55, b: 99 },
@@ -32,7 +34,7 @@ function drawRectangleWithShadow(page, { x, y, color, width, height }) {
  * Draw the flowchart row of rectangle
  * @param {import('pdf-lib').PDFPage} page
  * @param {object} _
- * @param {import('../types/data').Deliverable} _.data
+ * @param {import('../../types/data').Deliverable} _.data
  * @param {import('pdf-lib').PDFFont} _.font
  * @param {number} _.yPos
  */
@@ -92,15 +94,37 @@ function drawPldDeliveryCard(page, { data, font, yPos }) {
 
 		if (!section.stories) return;
 
-		const yUs = y - (yGap * 0.6) - rectangle.height
+		const yUs = y - (yGap * 0.6)
+		const usFontHeight = font.heightAtSize(fontSize, { descender: true })
+		const usMaxWidth = rectangle.width - 1 - fontSize
+		let usHeightCombined = 0
 		section.stories.forEach((us, j) => {
+			const text = `${i + 1}.${j + 1} ${us.name}`
+			const nbLines = breakLinesPdf(text, font, fontSize, usMaxWidth).length
+			log.debug({nbLines})
+
+			const totalHeight = usFontHeight * (nbLines + 2)
+			usHeightCombined += totalHeight
 			drawRectangleWithShadow(page, {
 				x,
-				y: yUs - (rectangle.height + 3) * j,
+				y: yUs - (usHeightCombined + 3 * j),
 				color: rgbCustom(elements.userStory),
 				width: rectangle.width - 1,
-				height: rectangle.height
+				height: totalHeight
 			})
+
+			
+			drawTextCenter(page, text, {
+				x: x + fontSize,
+				y: yUs - (usHeightCombined + 3 * j) + totalHeight / 2,
+				font,
+				fontSize: fontSize,
+				color: rgb(0, 0, 0),
+				maxWidth: usMaxWidth,
+				lineHeight: 1.5,
+				centerOption: centerOptions.VERTICALLY
+			})
+			
 		})
 	})
 }

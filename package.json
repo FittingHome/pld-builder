@@ -1,16 +1,17 @@
 {
-  "name": "trello2pld",
+  "name": "pld-builder",
   "version": "1.0.0",
-  "description": "",
+  "description": "An utilitary to build a PLD pdf from a json file",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "commander": "^8.2.0",
+    "console-log-level": "^1.4.1",
     "pdf-lib": "^1.16.0"
   }
 }

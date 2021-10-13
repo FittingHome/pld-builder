@@ -1,6 +1,7 @@
 const fs = require('fs');
 const { PDFDocument } = require('pdf-lib');
 const { optionalAppend } = require('./utils');
+const log = require('./log')
 
 /**
  * @param {import('pdf-lib').PDFDocument} pdfDoc
@@ -13,7 +14,7 @@ async function savePdfOnDisk(pdfDoc, path) {
 
 	const callback = (err) => {
 		if (err) throw err;
-		console.log(`${fullpath} has been saved!`);
+		log.info(`${fullpath} has been saved!`);
 	}
 	fs.writeFile(fullpath, Buffer.from(pdfBytes), callback);
 }

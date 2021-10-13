@@ -1,4 +1,7 @@
 const { rgb, TextAlignment } = require('pdf-lib')
+const chalk = require('chalk')
+const log = require('./log')
+
 
 /**
  * Return {str} with the extension added if it wasn't there in the first place
@@ -23,34 +26,77 @@ function rgbCustom(e) {
 		(e.b ? e.b : 0) / 255);
 }
 
+const centerOptions = Object.freeze({
+	HORIZONTALLY: 1,
+	VERTICALLY: 2,
+	BOTH: 3
+})
+
 /**
- * 
+ * It draws text centered from the x and y position
  * @param {import('pdf-lib').PDFPage} page 
  * @param {string} text
  * @param {object} _
- * @param {number} _.x center x position
- * @param {number} _.y center y position
- * @param {number} _.size
+ * @param {number} _.x center x position, if not supplied its equal to the middle of the page
+ * @param {number} _.y center y position, if not supplied its equal to the middle of the page
+ * @param {number} _.fontSize
  * @param {number} _.maxWidth
+ * @param {number} _.lineHeight
  * @param {import('pdf-lib').RGB} _.color
  * @param {import('pdf-lib').PDFFont} _.font
+ * @param {boolean} _.debug
+ * @param {number} _.centerOption
  */
-function drawTextCenter(page, text, { x, y, color, size, font, maxWidth }) {
-	// const textWidth = font.widthOfTextAtSize(text, size);
-	const textHeight = font.heightAtSize(size);
-	const lineHeight = 1.14
+function drawTextCenter(page, text, { x, y, color, font, fontSize, maxWidth, lineHeight, debug, centerOption }) {
+	const textShrinkHeight = font.heightAtSize(fontSize, {descender: false})
+	const textHeight = font.heightAtSize(fontSize, {descender: true})
 
-	text = breakLinesPdf(text, font, size, maxWidth)
+	x = x !== undefined ? x : page.getWidth() / 2
+	y = y !== undefined ? y : page.getHeight() / 2
+	color = color ? color : rgb(0, 0, 0)
+	lineHeight = lineHeight ? lineHeight : 1.14
+	centerOption = centerOption !== undefined ? centerOption : centerOptions.BOTH
+
+	text = breakLinesPdf(text, font, fontSize, maxWidth)
 	const paragraphHeight = (text.length - 1) * (textHeight * lineHeight ) + textHeight
 
 	for (let i = text.length - 1; i >= 0; i--) {
-		console.log( text[i] )
+		const paragraphWidth = font.widthOfTextAtSize(text[i], fontSize)
+
+		const pX = centerOption === centerOptions.VERTICALLY
+			? x
+			: (x - paragraphWidth / 2)
+
+		const pyAdd = (text.length - i - 1) * (lineHeight * textHeight)
+		const pY = centerOption === centerOptions.HORIZONTALLY
+			? y + pyAdd
+			: y + pyAdd - paragraphHeight / 2
+
+		const descenderHeight = textHeight - textShrinkHeight
+
 		page.drawText(text[i], {
-			x: x - font.widthOfTextAtSize(text[i], size) / 2,
-			y: y - paragraphHeight / 2 + (text.length - i - 1) * (lineHeight * textHeight),
+			x: pX,
+			y: pY + (descenderHeight / 2),
 			color,
-			size,
-			font
+			font,
+			size : fontSize,
+		})
+
+		if (debug) {
+			page.drawRectangle({
+				x: pX,
+				y: pY,
+				borderWidth: 1,
+				borderColor: rgb(0,0,1),
+				width: paragraphWidth,
+				height: textHeight,
+			})
+		}
+	}
+
+	if (debug) {
+		page.drawSquare({
+			x, y, size: 1, color: rgb(1, 0, 0)
 		})
 	}
 }
@@ -68,8 +114,11 @@ function breakLinesPdf (
 	font,
 	fontSize,
 	maxWidth
-) {
+) {	
 	const paragraphs = text.split('\n')
+	if (!maxWidth) {
+		return paragraphs
+	} 
 	for (let index = 0; index < paragraphs.length; index++) {
 		const paragraph = paragraphs[index]
 		if (font.widthOfTextAtSize(paragraph, fontSize) > maxWidth) {
@@ -81,7 +130,7 @@ function breakLinesPdf (
 			for (const word of words) {
 				newParagraph[i].push(word)
 				if (font.widthOfTextAtSize(newParagraph[i].join(' '), fontSize) > maxWidth) {
-					newParagraph[i].splice(-1) // retira a ultima palavra
+					newParagraph[i].splice(-1)
 					newParagraph[++i] = []
 					newParagraph[i].push(word)
 				}
@@ -89,14 +138,84 @@ function breakLinesPdf (
 			paragraphs[index] = newParagraph.map((p) => p.join(' ')).join('\n')
 		}
 	}
-	console.log({paragraphs})
 	return paragraphs.join('\n').split('\n')
 }
 
+const URL = require("url").URL;
+/**
+ * @param {string} s
+ * @returns {boolean}
+ */
+function stringIsUrl(s) {
+	try {
+		new URL(s);
+		return true;
+	} catch (_) {
+		return false;
+	}
+};
+
+/**
+ * 
+ * @param {import('pdf-lib').PDFDocument} pdfDoc
+ * @param {string} imgExtension 
+ * @param {*} data 
+ * @returns {Promise<import('pdf-lib').PDFImage>}
+ */
+async function _embedImg(pdfDoc, imgExtension, data) {
+	if (imgExtension === ".png") {
+		return await pdfDoc.embedPng(data)
+	} else {
+		return await pdfDoc.embedJpg(data)
+	}
+}
+
+const fs = require('fs')
+const fetch = require('node-fetch')
+/**
+ * Simple utilitary function to embed both jpg and png images (doesn't support base64 encoded string)
+ * @param {import('pdf-lib').PDFDocument} pdfDoc
+ * @param {string} imgUri
+ * @returns {Promise<import('pdf-lib').PDFImage>}
+ */
+async function embedImg(pdfDoc, imgUri) {
+	const dotIdx = imgUri.lastIndexOf('.')
+	if (dotIdx === -1) {
+		log.error(imgUri, "isn't a valid image")
+		return;
+	}
+	const imgExtension = imgUri.substr(dotIdx);
+
+	if (stringIsUrl(imgUri)) {
+		try {
+			const buffer = await fetch(imgUri).then(res => res.arrayBuffer())
+			return await _embedImg(pdfDoc, imgExtension, buffer)
+		} catch (err) {
+			log.error(err)
+		}	
+	}
+	
+	try {
+		const data = fs.readFileSync(imgUri)
+		return await _embedImg(pdfDoc, imgExtension, data)
+	} catch (err) {
+		log.error(err)
+	}
+}
+
+// Orange
+const warning = chalk.hex('#FFA500')
 
 module.exports = {
 	optionalAppend,
 	rgbCustom,
 	drawTextCenter,
-	breakLinesPdf
+	breakLinesPdf,
+	embedImg,
+
+	warning,
+	centerOptions,
+
+	// For testing purposes
+	stringIsUrl,
 }

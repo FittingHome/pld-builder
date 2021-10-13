@@ -15,5 +15,9 @@
     "console-log-level": "^1.4.1",
     "node-fetch": "^2.6.5",
     "pdf-lib": "^1.16.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^27.0.2",
+    "jest": "^27.2.5"
   }
 }

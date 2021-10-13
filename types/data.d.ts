@@ -1,4 +1,5 @@
 export interface PldData {
+	promotionYear: number
 	name: string
 	logo: string
 	members: Member[]
@@ -17,7 +18,7 @@ export interface Deliverable {
 
 export interface Section {
 	name: string
-	userStories: UserStory[]
+	stories: UserStory[]
 }
 
 export interface UserStory {

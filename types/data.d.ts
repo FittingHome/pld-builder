@@ -2,13 +2,14 @@ export interface PldData {
 	promotionYear: number
 	name: string
 	logo: string
-	members: Member[]
 	deliverables: Deliverable[]
+	members: Member[]
 }
 
 export interface Member {
 	pseudo: string
 	fullname: string
+	attributions: string[] // Example ["1.1", "2.4", "4.2"]
 }
 
 export interface Deliverable {

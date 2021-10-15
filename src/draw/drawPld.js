@@ -1,11 +1,12 @@
 const { PageSizes } = require('pdf-lib');
 const { drawPldFlowchart } = require('./drawFlowchart')
-const { drawPldDeliveryCard } = require('./drawDeliveryCard')
-const { embedImg } = require('../utils')
+const { drawPldDeliveryCard, drawPldDeliveryCardPage } = require('#src/draw/drawDeliveryCard')
+const { embedImg } = require('#src/utils/index')
 const { drawTextCenter } = require('./drawTextCenter')
+const { validateDeliverable } = require("#src/validator")
 const chalk = require('chalk')
 const fs = require('fs')
-const log = require('../utils/log')
+const log = require('#src/utils/log')
 
 
 /**
@@ -44,7 +45,8 @@ async function drawMainPage(pdfDoc, font, { name, image }) {
 
 /**
  * @param {import('pdf-lib').PDFDocument} pdfDoc
- * @param {import('../types/data').PldData} pldData
+ * @param {import('pdf-lib').PDFFont} font
+ * @param {import('#types/data').PldData} pldData
  */
 function drawFlowchartPage(pdfDoc, font, pldData) {
 	const page = pdfDoc.addPage(PageSizes.Letter)
@@ -59,7 +61,8 @@ function drawFlowchartPage(pdfDoc, font, pldData) {
 
 /**
  * @param {import('pdf-lib').PDFDocument} pdfDoc
- * @param {import('../types/data').PldData} pldData
+ * @param {import('pdf-lib').PDFFont} font
+ * @param {import('#types/data').PldData} pldData
  */
 function drawDeliveryCardPages(pdfDoc, font, pldData) {
 	const { deliverables } = pldData;
@@ -68,6 +71,10 @@ function drawDeliveryCardPages(pdfDoc, font, pldData) {
 	}
 
 	deliverables.forEach(del => {
+		if (!validateDeliverable(del)) {
+			return
+		}
+
 		const page = pdfDoc.addPage(PageSizes.Letter)
 		const { width, height } = page.getSize()
 

@@ -1,11 +1,12 @@
 
 const {
-	optionalAppend,
-	stringIsUrl,
 	rgbCustom,
 	breakLinesPdf
-} = require('../src/utils')
-
+} = require('#src/utils/index')
+const {
+	optionalAppend,
+	stringIsUrl,
+} = require("#src/utils/string")
 let pdfDoc;
 let pdfFont
 

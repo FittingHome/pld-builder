@@ -1,4 +1,4 @@
-const options = require('../options')
+const options = require('#src/options')
 
 const levelsSymbol = Object.freeze({
 	fatal: '❗',//💀

@@ -1,6 +1,6 @@
-const { breakLinesPdf } = require('../utils')
+const { breakLinesPdf } = require('#src/utils/index')
 const { rgb } = require('pdf-lib')
-const log = require('../utils/log')
+const log = require('#src/utils/log')
 
 const centerOptions = Object.freeze({
 	HORIZONTALLY: 1,

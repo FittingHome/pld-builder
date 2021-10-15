@@ -1,5 +1,5 @@
 const { savePdfOnDisk } = require('./savePdf');
-const log = require('../utils/log')
+const log = require('#src/utils/log')
 
 /**
  * @typedef PldNameParams

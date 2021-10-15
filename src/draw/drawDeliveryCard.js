@@ -1,9 +1,9 @@
-const { rgbCustom, warning } = require('../utils')
-const { drawTextCenter, centerOptions } = require('./drawTextCenter')
 const chalk = require('chalk')
 const { rgb, drawText } = require('pdf-lib')
-const log = require('../utils/log')
-const { breakLinesPdf } = require('../utils')
+const { drawTextCenter, centerOptions } = require('./drawTextCenter')
+const { rgbCustom, warning } = require('#src/utils/index')
+const log = require('#src/utils/log')
+const { breakLinesPdf } = require('#src/utils/index')
 
 const elements = {
 	shadow: { r: 31, g: 55, b: 99 },
@@ -30,11 +30,12 @@ function drawRectangleWithShadow(page, { x, y, color, width, height }) {
 	})
 }
 
+
 /**
  * Draw the flowchart row of rectangle
  * @param {import('pdf-lib').PDFPage} page
  * @param {object} _
- * @param {import('../../types/data').Deliverable} _.data
+ * @param {import('#types/data').Deliverable} _.data
  * @param {import('pdf-lib').PDFFont} _.font
  * @param {number} _.yPos
  */
@@ -50,7 +51,7 @@ function drawPldDeliveryCard(page, { data, font, yPos }) {
 		return log.warn((`'${chalk.bold(data.name)}' delivery must have at least two sections to appear in the PLD`))
 	}
 
-	const { xMargin, xGap, rectangle, totalWidth } = computeDeliveryCardDimension(page, sections.length)
+	const { xMargin, xGap, rectangle, totalWidth } = _computeDeliveryCardDimension(page, sections.length)
 	const bigRectangleHeight = rectangle.height * 1.2
 
 	const xStart = width / 2 - totalWidth / 2
@@ -74,6 +75,8 @@ function drawPldDeliveryCard(page, { data, font, yPos }) {
 	const fontSize = 9
 	
 	const y = yPos - bigRectangleHeight - yGap - rectangle.height
+
+	
 	sections.forEach((section, i) => {
 		const x = xStart + rectangle.width * i + xGap * i
 
@@ -129,7 +132,7 @@ function drawPldDeliveryCard(page, { data, font, yPos }) {
 	})
 }
 
-function computeDeliveryCardDimension(page, nbRectangles) {
+function _computeDeliveryCardDimension(page, nbRectangles) {
 	if (nbRectangles > 4) {
 		nbRectangles = 4
 	}
@@ -153,5 +156,5 @@ function computeDeliveryCardDimension(page, nbRectangles) {
 }
 
 module.exports = {
-	drawPldDeliveryCard
+	drawPldDeliveryCard,
 }

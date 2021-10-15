@@ -19,5 +19,18 @@
   "devDependencies": {
     "@types/jest": "^27.0.2",
     "jest": "^27.2.5"
+  },
+  "engines": {
+    "node": "^16 || ^15 || ^14 || ^13 || ^12"
+  },
+  "imports": {
+    "#src/*": "./src/*.js",
+    "#types/*": "./types/*"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "^#src(.*)$": "<rootDir>/src$1",
+      "^#types(.*)$": "<rootDir>/types$1"
+    }
   }
 }

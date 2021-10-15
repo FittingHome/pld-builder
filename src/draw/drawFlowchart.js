@@ -1,5 +1,5 @@
 const { rgb } = require('pdf-lib')
-const { rgbCustom, breakLinesPdf, computeHorizontalChartDimension } = require('../utils')
+const { rgbCustom, breakLinesPdf, computeHorizontalChartDimension } = require('#src/utils/index')
 const { drawTextCenter } = require('./drawTextCenter')
 
 const elements = {

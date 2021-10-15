@@ -1,18 +1,7 @@
 const { rgb, TextAlignment } = require('pdf-lib')
 const chalk = require('chalk')
-const log = require('./log')
-
-
-/**
- * Return {str} with the extension added if it wasn't there in the first place
- * @param {string} baseStr
- * @param {string} appendedStr
- */
-function optionalAppend(baseStr, appendedStr) {
-	return !baseStr.endsWith(appendedStr)
-		? baseStr + appendedStr
-		: baseStr
-}
+const log = require('#src/utils/log')
+const { stringIsUrl } = require("#src/utils/string")
 
 /**
  * Returns a pdf-lib rgb object from an object containing the color properties
@@ -66,19 +55,7 @@ function breakLinesPdf (
 	return paragraphs.join('\n').split('\n')
 }
 
-const URL = require("url").URL;
-/**
- * @param {string} s
- * @returns {boolean}
- */
-function stringIsUrl(s) {
-	try {
-		new URL(s);
-		return true;
-	} catch (_) {
-		return false;
-	}
-};
+
 
 /**
  * 
@@ -132,13 +109,9 @@ async function embedImg(pdfDoc, imgUri) {
 const warning = chalk.hex('#FFA500')
 
 module.exports = {
-	optionalAppend,
 	rgbCustom,
 	breakLinesPdf,
 	embedImg,
 
 	warning,
-
-	// For testing purposes
-	stringIsUrl,
 }

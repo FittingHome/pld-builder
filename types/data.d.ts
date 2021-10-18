@@ -30,3 +30,23 @@ export interface UserStory {
 	DoD: string[]
 	estimatedTime: number
 }
+
+export interface RankedUserStory extends UserStory {
+	delId: number
+	secId: number
+	id: number
+}
+
+export interface TextSection {
+	text: string
+	x: number
+	y: number
+	width: number
+	height: number
+	color: import('pdf-lib').RGB
+	font: import('pdf-lib').PDFFont
+	fontSize: number
+	fontColor: import('pdf-lib').RGB
+	fontHeightFactor: number,
+	lineHeight: number
+}

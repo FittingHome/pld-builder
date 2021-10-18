@@ -1,9 +1,10 @@
 const { PageSizes } = require('pdf-lib');
 const { drawPldFlowchart } = require('./drawFlowchart')
-const { drawPldDeliveryCard, drawPldDeliveryCardPage } = require('#src/draw/drawDeliveryCard')
+const { drawPldDeliveryCard } = require('#src/draw/drawDeliveryCard')
+const { drawPldUserStory } = require('#src/draw/drawUserStory')
 const { embedImg } = require('#src/utils/index')
 const { drawTextCenter } = require('./drawTextCenter')
-const { validateDeliverable } = require("#src/validator")
+const { validateDeliverable, validateSection, validateUserStory } = require("#src/validator")
 const chalk = require('chalk')
 const fs = require('fs')
 const log = require('#src/utils/log')
@@ -87,15 +88,81 @@ function drawDeliveryCardPages(pdfDoc, font, pldData) {
 }
 
 /**
+ * @param {import('pdf-lib').PDFDocument} pdfDoc
+ * @param {import('pdf-lib').PDFFont} font
+ * @param {import('#types/data').PldData} pldData
+ */
+function drawUserStoryPages(pdfDoc, font, pldData) {
+
+	const userStories = retrieveAllUserStories(pldData)
+
+	userStories.forEach((rus, i) => {
+
+		const page = pdfDoc.addPage(PageSizes.Letter)
+		const { width, height } = page.getSize()
+
+		drawPldUserStory(page, {
+			data: rus,
+			font,
+			yPos: height - height / 10
+		})
+	})
+}
+
+/**
+ * @param {import('#types/data').PldData} pldData
+ * @returns {import('#types/data').RankedUserStory[]}
+ */
+function retrieveAllUserStories(pldData) {
+
+	/**
+	 * @type {import('#types/data').RankedUserStory[]} userStories
+	 */
+	const userStories = [];
+
+	const { deliverables } = pldData;
+	if (!deliverables) {
+		return log.error(chalk.red("Can't construct user stories if there aren't any deliverable..."))
+	}
+
+	deliverables.forEach((del, i) => {
+		if (!validateDeliverable(del)) {
+			return
+		}
+
+		del.sections.forEach((sec, j) => {
+			if (!validateSection(sec)) {
+				return
+			}
+
+			sec.stories.forEach((us, k) => {
+				if (!validateUserStory(us)) {
+					return
+				}
+
+				userStories.push({...us,
+					delId: i + 1,
+					secId: j + 1,
+					id: k + 1
+				})
+			})
+		})
+	})
+
+	return userStories;
+}
+
+/**
  * Draw all the pages of the pld inside the pdf
  * @param {import('pdf-lib').PDFDocument} pdfDoc
  * @param {import('pdf-lib').PDFFont} font
  * @param {import('../types/data').PldData} pldData
  */
-async function drawPld(pdfDoc, font, pldData) {
+async function drawPld(pdfDoc, {font, pldData}) {
 	await drawMainPage(pdfDoc, font, { name: pldData.name, image: pldData.logo })
 	drawFlowchartPage(pdfDoc, font, pldData)
 	drawDeliveryCardPages(pdfDoc, font, pldData)
+	drawUserStoryPages(pdfDoc, font, pldData)
 }
 
 module.exports = {

@@ -36,6 +36,25 @@ function validateDeliverable(del, printWarning = true) {
     return true
 } 
 
+/**
+ *
+ * @param {import('#types/data').Section} sec
+ * @param {boolean} printWarning
+ * @returns {boolean} is the section valid?
+ */
+function validateSection(sec, printWarning = true) {
+    if (!sec) {
+        return _error("The section is null")
+    }
+    if (!sec.name) {
+        return _error("A section must have a name")
+    }
+    if (!sec.stories) {
+        return _error(`${del.name} (section) must have user stories`)
+    }
+
+    return true
+}
 
 /**
  * 
@@ -72,7 +91,7 @@ function validateUserStory(us, printWarning = true) {
 
 module.exports = {
     validateUserStory,
-    // validateSection,
+    validateSection,
     validateDeliverable,
     // validatePldData,
 }

@@ -37,11 +37,13 @@ async function buildPld(pldData, { date, version }) {
 	const nbDeliverables = pldData.deliverables.length;
 	log.trace({ nbDeliverables });
 
-
 	const pdfDoc = await PDFDocument.create()
 	const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica)
 
-	await drawPld(pdfDoc, helveticaFont, pldData);
+	await drawPld(pdfDoc, {
+		font: helveticaFont,
+		pldData
+	});
 
 	await savePld(pdfDoc, {
 		name: pldData.name,

@@ -2,3 +2,4 @@ node_modules
 *.pdf
 notes.txt
 examples/
+.env

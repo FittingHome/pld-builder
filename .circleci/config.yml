@@ -8,12 +8,15 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install all dependencies and test
+          name: Setup monorepo and install dependencies
           command: |
             npm install -D yarn
             npx yarn
             npx lerna bootstrap
-            npx yarn test
+
+      - run:
+          name: Run tests
+          command: npx yarn test
 #   test:
 #     docker:
 #       - image: alpine:3.7

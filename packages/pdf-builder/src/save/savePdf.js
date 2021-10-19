@@ -1,6 +1,6 @@
 const fs = require('fs');
 const { PDFDocument } = require('pdf-lib');
-const { optionalAppend } = require('#src/utils/string');
+const { optionalAppend } = require('@pld-builder/core');
 const log = require('#src/utils/log')
 
 /**

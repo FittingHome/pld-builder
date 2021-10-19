@@ -34,7 +34,7 @@ const elements = {
  * Draw the flowchart row of rectangle
  * @param {import('pdf-lib').PDFPage} page
  * @param {object} _
- * @param {import('#types/data').RankedUserStory} _.data
+ * @param {import('@pld-builder/core/types/data').RankedUserStory} _.data
  * @param {import('pdf-lib').PDFFont} _.font
  * @param {number} _.yPos
  */
@@ -204,7 +204,7 @@ function computeHeightOfText(text, {maxWidth, font, fontSize, fontHeightFactor =
 /**
  * 
  * @param {import('pdf-lib').PDFPage} page
- * @param {import('#types/data').TextSection} txtSection
+ * @param {import('@pld-builder/core/types/data').TextSection} txtSection
 
  * @returns {number} height drawn
  */
@@ -243,7 +243,7 @@ function _drawSection(page, { text, x, y, width, height, color, font, fontSize, 
 
 /**
  * @param {import('pdf-lib').PDFPage} page
- * @param {import('#types/data').TextSection[]} txtSections
+ * @param {import('@pld-builder/core/types/data').TextSection[]} txtSections
  */
 function _drawHorizontalTextSections(page, txtSections) {
 	if (!txtSections) return;

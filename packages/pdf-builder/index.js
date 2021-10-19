@@ -22,15 +22,9 @@ const {
 const { drawPld } = require('./src/draw/drawPld');
 const { savePld } = require('./src/save/savePld');
 
-const elements = {
-	name:	{ r: 91, g: 155, b: 213 },
-	p1:		{ r: 189, g: 214, b: 238 },
-	p2:		{ r: 222, g: 235, b: 247 },
-}
-
 /**
  * 
- * @param {import('./types/data').PldData} pldData 
+ * @param {import('@pld-builder/core/types/data').PldData} pldData 
  * @param {string} date 
  */
 async function buildPld(pldData, { date, version }) {

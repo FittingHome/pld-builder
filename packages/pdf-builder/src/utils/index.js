@@ -1,7 +1,8 @@
 const { rgb, TextAlignment } = require('pdf-lib')
 const chalk = require('chalk')
 const log = require('#src/utils/log')
-const { stringIsUrl } = require("#src/utils/string")
+const { stringIsUrl } = require('@pld-builder/core');
+
 
 /**
  * Returns a pdf-lib rgb object from an object containing the color properties

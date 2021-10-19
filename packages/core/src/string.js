@@ -1,7 +1,6 @@
 /**
- * Return {str} with the extension added if it wasn't there in the first place
- * @param {string} baseStr
- * @param {string} appendedStr
+ * Return [baseStr] with the extension added if it wasn't there in the first place
+ * @type {import('./string')}
  */
 function optionalAppend(baseStr, appendedStr) {
     return !baseStr.endsWith(appendedStr)

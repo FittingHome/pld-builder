@@ -35,7 +35,7 @@ function drawRectangleWithShadow(page, { x, y, color, width, height }) {
  * Draw the flowchart row of rectangle
  * @param {import('pdf-lib').PDFPage} page
  * @param {object} _
- * @param {import('#types/data').Deliverable} _.data
+ * @param {import('@pld-builder/core/types/data').Deliverable} _.data
  * @param {import('pdf-lib').PDFFont} _.font
  * @param {number} _.yPos
  */

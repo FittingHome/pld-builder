@@ -3,7 +3,7 @@ const {
 } = require("#src/validator")
 
 /**
- * @type {import('#types/data').UserStory}
+ * @type {import('@pld-builder/core/types/data').UserStory}
  */
 const us = {
     name: "Lorem ipsum",

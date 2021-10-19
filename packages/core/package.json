@@ -1,0 +1,11 @@
+{
+	"name": "@pld-builder/core",
+	"version": "1.0.0",
+	"private": true,
+	"scripts": {
+		"test": "jest" 
+	},
+	"dependencies": {
+		"console-log-level": "^1.4.1"
+	}
+}

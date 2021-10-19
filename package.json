@@ -1,36 +1,17 @@
 {
-  "name": "pld-builder",
-  "version": "1.0.0",
-  "description": "An utilitary to build a PLD pdf from a json file",
-  "main": "index.js",
-  "scripts": {
-    "test": "jest"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "chalk": "^4.1.2",
-    "commander": "^8.2.0",
-    "console-log-level": "^1.4.1",
-    "node-fetch": "^2.6.5",
-    "pdf-lib": "^1.16.0"
-  },
-  "devDependencies": {
-    "@types/jest": "^27.0.2",
-    "jest": "^27.2.5"
-  },
-  "engines": {
-    "node": "^16 || ^15 || ^14 || ^13 || ^12"
-  },
-  "imports": {
-    "#src/*": "./src/*.js",
-    "#types/*": "./types/*"
-  },
-  "jest": {
-    "moduleNameMapper": {
-      "^#src(.*)$": "<rootDir>/src$1",
-      "^#types(.*)$": "<rootDir>/types$1"
-    }
-  }
+	"name": "pld-builder",
+	"private": true,
+	"workspaces": {
+		"packages": [
+			"packages/*"
+		]
+	},
+	"devDependencies": {
+		"lerna": "^3.22.1"
+	},
+	"scripts": {
+		"bootstrap": "lerna bootstrap",
+		"dev": "lerna run dev",
+		"test": "lerna run test"
+	}
 }

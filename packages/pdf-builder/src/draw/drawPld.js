@@ -47,7 +47,7 @@ async function drawMainPage(pdfDoc, font, { name, image }) {
 /**
  * @param {import('pdf-lib').PDFDocument} pdfDoc
  * @param {import('pdf-lib').PDFFont} font
- * @param {import('#types/data').PldData} pldData
+ * @param {import('@pld-builder/core/types/data').PldData} pldData
  */
 function drawFlowchartPage(pdfDoc, font, pldData) {
 	const page = pdfDoc.addPage(PageSizes.Letter)
@@ -63,7 +63,7 @@ function drawFlowchartPage(pdfDoc, font, pldData) {
 /**
  * @param {import('pdf-lib').PDFDocument} pdfDoc
  * @param {import('pdf-lib').PDFFont} font
- * @param {import('#types/data').PldData} pldData
+ * @param {import('@pld-builder/core/types/data').PldData} pldData
  */
 function drawDeliveryCardPages(pdfDoc, font, pldData) {
 	const { deliverables } = pldData;
@@ -90,7 +90,7 @@ function drawDeliveryCardPages(pdfDoc, font, pldData) {
 /**
  * @param {import('pdf-lib').PDFDocument} pdfDoc
  * @param {import('pdf-lib').PDFFont} font
- * @param {import('#types/data').PldData} pldData
+ * @param {import('@pld-builder/core/types/data').PldData} pldData
  */
 function drawUserStoryPages(pdfDoc, font, pldData) {
 
@@ -110,13 +110,13 @@ function drawUserStoryPages(pdfDoc, font, pldData) {
 }
 
 /**
- * @param {import('#types/data').PldData} pldData
- * @returns {import('#types/data').RankedUserStory[]}
+ * @param {import('@pld-builder/core/types/data').PldData} pldData
+ * @returns {import('@pld-builder/core/types/data').RankedUserStory[]}
  */
 function retrieveAllUserStories(pldData) {
 
 	/**
-	 * @type {import('#types/data').RankedUserStory[]} userStories
+	 * @type {import('@pld-builder/core/types/data').RankedUserStory[]} userStories
 	 */
 	const userStories = [];
 

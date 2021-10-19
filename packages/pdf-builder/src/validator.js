@@ -18,7 +18,7 @@ function _error(str) {
 
 /**
  *
- * @param {import('#types/data').Deliverable} del
+ * @param {import('@pld-builder/core/types/data').Deliverable} del
  * @param {boolean} printWarning
  * @returns {boolean} is the deliverable valid?
  */
@@ -38,7 +38,7 @@ function validateDeliverable(del, printWarning = true) {
 
 /**
  *
- * @param {import('#types/data').Section} sec
+ * @param {import('@pld-builder/core/types/data').Section} sec
  * @param {boolean} printWarning
  * @returns {boolean} is the section valid?
  */
@@ -58,7 +58,7 @@ function validateSection(sec, printWarning = true) {
 
 /**
  * 
- * @param {import('#types/data').UserStory} us
+ * @param {import('@pld-builder/core/types/data').UserStory} us
  * @param {boolean} printWarning
  * @returns {boolean} is the user story valid?
  */

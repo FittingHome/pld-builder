@@ -10,10 +10,10 @@ jobs:
       - run:
           name: Install all dependencies and test
           command: |
-            npm install -g yarn
-            yarn
+            npm install -D yarn
+            npx yarn
             npx lerna bootstrap
-            yarn test
+            npx yarn test
 #   test:
 #     docker:
 #       - image: alpine:3.7

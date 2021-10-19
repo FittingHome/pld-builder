@@ -22,8 +22,17 @@ function stringIsUrl(s) {
     }
 };
 
+/**
+ * @param {string} s
+ * @returns {boolean}
+ */
+function isCharacterALetter(char) {
+    return char.toLowerCase() != char.toUpperCase()
+}
+
 module.exports = {
     optionalAppend,
+    isCharacterALetter,
 
     // For testing purposes
     stringIsUrl

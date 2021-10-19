@@ -10,6 +10,7 @@ jobs:
       - run:
           name: Install all dependencies
           command: |
+            npm install -g yarn
             yarn
             npx lerna bootstrap
   test:

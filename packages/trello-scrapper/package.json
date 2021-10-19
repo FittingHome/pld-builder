@@ -1,0 +1,22 @@
+{
+  "name": "trello-scrapper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node index.js",
+    "test": "jest --silent"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@pld-builder/core": "^1.x",
+    "dotenv": "^10.0.0",
+    "node-fetch": "^2.6.5"
+  },
+  "imports": {
+    "#src/*": "./src/*.js",
+    "#types/*": "./types/*"
+  }
+}

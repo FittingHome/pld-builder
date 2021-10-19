@@ -5,7 +5,7 @@
   "description": "An utilitary to build a PLD pdf from a json file",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest --silent"
   },
   "keywords": [],
   "author": "",

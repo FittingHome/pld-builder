@@ -8,21 +8,22 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install all dependencies
+          name: Install all dependencies and test
           command: |
             npm install -g yarn
             yarn
             npx lerna bootstrap
-  test:
-    docker:
-      - image: alpine:3.7
-    steps:
-      - checkout
-      - run: yarn test
+            yarn test
+#   test:
+#     docker:
+#       - image: alpine:3.7
+#     steps:
+#       - checkout
+#       - run: yarn test
 
-# Orchestrate our job run sequence
-workflows:
-  build_and_test:
-    jobs:
-      - build
-      - test
+# # Orchestrate our job run sequence
+# workflows:
+#   build_and_test:
+#     jobs:
+#       - build
+#       - test

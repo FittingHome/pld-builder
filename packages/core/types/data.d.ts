@@ -37,6 +37,12 @@ export interface RankedUserStory extends UserStory {
 	id: number
 }
 
+export interface AssignedUserStory extends UserStory {
+	secId: number
+	id: number
+	assignedTo: string
+}
+
 export interface TextSection {
 	text: string
 	x: number

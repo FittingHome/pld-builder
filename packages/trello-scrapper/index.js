@@ -3,6 +3,8 @@ require('dotenv').config()
 const fetch = require('node-fetch')
 const { log } = require('@pld-builder/core')
 const { saveJsonOnDisk } = require('#src/saveJson')
+const { convertTrelloIndexCardToData,
+	convertTrelloCardToAssignedUserStory } = require('#src/trelloConverter')
 
 const trelloCredentials = `key=${process.env.TRELLO_API_KEY}&token=${process.env.TRELLO_SERVER_TOKEN}`
 const apiBaseUrl = "https://api.trello.com/1"
@@ -117,6 +119,14 @@ async function fetchLabelsFromBoard(boardID) {
 	})
 }
 
+async function fetchMembersFromBoard(boardID) {
+	return fetchElementsFromParent({
+		parents: "boards",
+		parentID: boardID,
+		elements: "members"
+	})
+}
+
 
 // (async function () {
 // 	const boardID = process.env.PLD_BOARD_ID
@@ -145,30 +155,94 @@ async function fetchLabelsFromBoard(boardID) {
 // })();
 
 
-const boardID = "61484cc01d592e86a2505fb1";
+const boardID = "614a11b9e985b2565009fcdf";
+
+const jsonFileName = "pldData.json";
 
 (async function () {
 
-	// const boards = await fetchAllBoards()
-	// log.info(boards)
 
-	// const board = boards.find((b) => b.name === process.env.PLD_BOARD_NAME)
-	// if (!board) {
-	// 	log.fatal(`Can't find a board named "${process.env.PLD_BOARD_NAME}" in your Trello account`)
-	// }
+	const boards = await fetchAllBoards()
 
-	// const lists = await fetchListsFromBoard(board.id)
-	// lists.forEach(list => {
-	// 	list.
+	// const board = await fetchElementFromId({
+	// 	element: "boards",
+	// 	id: boardID
 	// })
+	// console.log(board)
 
-	const card = await fetchElementFromId("Cards", "61484cc01d592e86a2505fb1")
+	const board = boards.find((b) => b.name === process.env.PLD_BOARD_NAME)
+	if (!board) {
+		log.fatal(`Can't find a board named "${process.env.PLD_BOARD_NAME}" in your Trello account`)
+	}
+	// console.log(board)
 
-	saveJsonOnDisk(JSON.stringify(card), "__tests__/res/validCard")
+	const members = await fetchMembersFromBoard(board.id)
+	console.log(members)
 
-	// console.log(card)
-	// console.log(card.desc)
-	// console.log(card.badges)
+	/** @type {import('@pld-builder/core/types/data').PldData} */
+	const pldData = {
+		logo: "./assets/logo.png",
+		deliverables: []
+	};
+
+	const lists = await fetchListsFromBoard(board.id)
+	for (const list of lists) {
+		const cards = await fetchCardsFromList(list.id)
+
+		if (list.name.startsWith("[[")) {
+			pldData.name = list.name.replace('[[', '').replace(']]', '')
+
+			cards.forEach(card => {
+				if (card.name === "Index") {
+					const data = convertTrelloIndexCardToData(card, false)
+					if (!data) {
+						throw `Can't find "Index" card of the list ${list.name}`
+					}
+					pldData.promotionYear = data.school
+				}
+				return
+			})
+		} else {
+			try {
+				if (list.name.startsWith("[")) {
+					/** @type {import('@pld-builder/core/types/data').Deliverable} */
+					const deliverable = {
+						sections: []
+					}
+					deliverable.name = list.name.replace('[', '').replace(']', '')
+
+					cards.forEach(card => {
+						if (card.name === "Index") {
+							const data = convertTrelloIndexCardToData(card, true)
+							if (!data) {
+								throw `Can't find "Index" card of the list ${list.name}`
+							}
+							data.sections.forEach(section => {
+								deliverable.sections.push({
+									name: section,
+									stories: []
+								})
+							})
+						} else {
+							log.debug("nb sections:", deliverable.sections)
+							const aus = convertTrelloCardToAssignedUserStory(card, members)
+							deliverable.sections[aus.secId - 1].stories.push(aus)
+						}
+					})
+					pldData.deliverables.push(deliverable)
+				}
+			} catch (e) {
+				log.error(e)
+			}
+		}
+	}
+
+	if (!pldData.name) {
+		log.error(`Failed to create "${jsonFileName}" because some mandatory informations are missing in the trello board`)
+		return
+	}
+
+	saveJsonOnDisk(JSON.stringify(pldData), "pldData")
 })();
 
 

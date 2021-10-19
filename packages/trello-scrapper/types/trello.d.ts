@@ -12,6 +12,12 @@ interface Labels {
 	black: string
 }
 
+export interface Member {
+	id: string
+	fullname: string
+	username: string
+}
+
 export interface Board {
 	id: string
 	name: string
@@ -25,6 +31,13 @@ export interface List {
 	idBoard: string
 }
 
+export interface Label {
+	id: string
+	idBoard: string
+	name: string
+	color: string
+}
+
 export interface Card {
 	id: string
 	name: string
@@ -36,7 +49,7 @@ export interface Card {
 	idList: string
 	idMembers: string[]
 	idLabels: string[]
-	labels: object[]
+	labels: Label[]
 	cover: CardCover
 }
 

@@ -1,0 +1,74 @@
+{
+	"id": "61484cc01d592e86a2505fb1",
+	"checkItemStates": [],
+	"closed": false,
+	"dateLastActivity": "2021-09-21T17:19:42.518Z",
+	"desc": "#Je veux :eyes:\nAvoir une batterie de test qui est appelé à chacun de mes commit pour vérifier la validité de mon code\n\n---\n\n#Description :book:\nA chaque commit, une série de test écrite au préalable est réalisé au sein de Gitlab pour s’assurer que mon code est valide\n\n---\n\n#Definition of Done :pencil:\n- Avoir au moins 60% de coverage du code aussi bien sur le script de Scrapping que le Builder \n- Tests au moment de commit sur Gitlab \n\n---\n\n1.5 J/H :hourglass:\n---",
+	"descData": {
+		"emoji": {}
+	},
+	"dueReminder": null,
+	"idBoard": "614a11b9e985b2565009fcdf",
+	"idList": "60f483805a6c8130c62d3379",
+	"idMembersVoted": [],
+	"idShort": 10,
+	"idAttachmentCover": null,
+	"idLabels": [
+		"614a12e98b8c264196909284"
+	],
+	"manualCoverAttachment": true,
+	"name": "1.2 Mise en place d'une CI/CD",
+	"pos": 229375.25,
+	"shortLink": "3iewWf0d",
+	"isTemplate": false,
+	"cardRole": null,
+	"dueComplete": false,
+	"due": null,
+	"email": null,
+	"shortUrl": "https://trello.com/c/3iewWf0d",
+	"start": null,
+	"url": "https://trello.com/c/3iewWf0d/10-41-mise-en-place-dune-ci-cd",
+	"idMembers": [
+		"5aa949dc81bcf294a62212a2"
+	],
+	"labels": [
+		{
+			"id": "614a12e98b8c264196909284",
+			"idBoard": "614a11b9e985b2565009fcdf",
+			"name": "Developpeur",
+			"color": "green"
+		}
+	],
+	"badges": {
+		"attachmentsByType": {
+			"trello": {
+				"board": 0,
+				"card": 0
+			}
+		},
+		"location": false,
+		"votes": 0,
+		"viewingMemberVoted": false,
+		"subscribed": true,
+		"fogbugz": "",
+		"checkItems": 0,
+		"checkItemsChecked": 0,
+		"checkItemsEarliestDue": null,
+		"comments": 0,
+		"attachments": 0,
+		"description": true,
+		"due": null,
+		"dueComplete": false,
+		"start": null
+	},
+	"subscribed": true,
+	"idChecklists": [],
+	"cover": {
+		"idAttachment": null,
+		"color": "red",
+		"idUploadedBackground": null,
+		"size": "normal",
+		"brightness": "light",
+		"idPlugin": null
+	}
+}

@@ -7,12 +7,10 @@
   "scripts": {
     "test": "jest --silent"
   },
-  "keywords": [],
-  "author": "",
   "license": "ISC",
   "dependencies": {
     "chalk": "^4.1.2",
-    "commander": "^8.2.0",
+    "commander": "^8.3.0",
     "console-log-level": "^1.4.1",
     "node-fetch": "^2.6.5",
     "pdf-lib": "^1.16.0"
@@ -27,11 +25,5 @@
   "imports": {
     "#src/*": "./src/*.js",
     "#types/*": "./types/*"
-  },
-  "jest": {
-    "moduleNameMapper": {
-      "^#src(.*)$": "<rootDir>/src$1",
-      "^#types(.*)$": "<rootDir>/types$1"
-    }
   }
 }

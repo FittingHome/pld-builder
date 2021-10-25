@@ -2,7 +2,7 @@ const {
 	optionalAppend,
 	isCharacterALetter,
 	stringIsUrl,
-} = require("../src/string")
+} = require("#src/string")
 
 test('append if not present at the end', () => {
 	expect(optionalAppend('foo', '.jpg')).toEqual('foo.jpg')

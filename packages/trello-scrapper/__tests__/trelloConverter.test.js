@@ -4,7 +4,7 @@ const {
 	_extractIdsAndNameFromCardName,
 	_extractFirstMarkdownEmojiFromLine,
 	_extractMainInfosFromCardDesc
-} = require('../src/trelloConverter')
+} = require('#src/trelloConverter')
 
 let validCard = {};
 const members = Object.freeze([

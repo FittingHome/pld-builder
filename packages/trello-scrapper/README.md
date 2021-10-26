@@ -22,3 +22,10 @@ Pour que la board soit scrappable par ce programme, elle doit réunir plusieurs 
         - :hourglass: -> for the 'estimated time' part
     - The label: you must use Trello label to define the 'as' part of the user story
     - The member: their must one and only one person following a card (he's assigned to it)
+
+## Usage
+
+Add a .env file at the root with at least 3 informations:
+  1. TRELLO_API_KEY=<your_key>        // access it on https://trello.com/app-key (only works if you are logged in)
+  2. TRELLO_SERVER_TOKEN=<your_token> // access it on the same page as above but you need to click a link
+  3. PLD_BOARD_NAME=<your_board_name> // the name of the board that represents a PLD

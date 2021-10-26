@@ -17,6 +17,7 @@ jobs:
       - run:
           name: Run tests
           command: npx yarn test
+      - run: ssh -oStrictHostKeyChecking=no -v $USER@$IP "./deploy.sh"
 #   test:
 #     docker:
 #       - image: alpine:3.7

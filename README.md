@@ -1,6 +1,6 @@
 # PLD-Builder 👷
 
-Monorepository that contains three packages:
+Monorepository that contains three packages :
 
 ### Core ⚛️
 > Package that contains functions and interfaces used in other packages

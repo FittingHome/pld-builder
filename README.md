@@ -12,7 +12,7 @@ Monorepository that contains three packages :
 > Utilitary that build a PLD pdf using a in input .json
 
 
-## Usage
+## Usage :
 
 > Prerequisites: nodejs, yarn
 

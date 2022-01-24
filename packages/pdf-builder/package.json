@@ -1,5 +1,5 @@
 {
-  "name": "pld-builder",
+  "name": "pdf-builder",
   "version": "1.0.0",
   "private": true,
   "description": "An utilitary to build a PLD pdf from a json file",

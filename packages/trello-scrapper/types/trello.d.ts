@@ -14,7 +14,7 @@ interface Labels {
 
 export interface Member {
 	id: string
-	fullname: string
+	fullName: string
 	username: string
 }
 
@@ -41,7 +41,7 @@ export interface Label {
 export interface Card {
 	id: string
 	name: string
-	
+
 	// Description
 	desc: string
 
@@ -51,9 +51,21 @@ export interface Card {
 	idLabels: string[]
 	labels: Label[]
 	cover: CardCover
+
+	isTemplate: boolean
 }
 
 export interface CardCover {
 	idAttachment: string
 	color: string
+	size: 'normal' | 'full'
+	brightness: 'dark' | 'light'
+}
+
+export interface Attachment {
+	id: string
+	mimeType: string
+	name: string
+	fileName: string
+	url: string
 }

@@ -30,7 +30,7 @@ const anchorOptions = Object.freeze({
  * @param {number} _.anchor
  * @returns {{top: number, left: number, width: number, height: number}}
  */
-function drawTextCenter(page, text, { x, y, color, font, fontSize, maxWidth, lineHeight, debug, centerOption }) {
+function drawTextCenter(page, text, { x, y, color, font, fontSize, maxWidth, lineHeight = 1.14, debug, centerOption }) {
 	const textShrinkHeight = font.heightAtSize(fontSize, { descender: false })
 	const textHeight = font.heightAtSize(fontSize, { descender: true })
 	const descenderHeight = textHeight - textShrinkHeight
@@ -39,7 +39,6 @@ function drawTextCenter(page, text, { x, y, color, font, fontSize, maxWidth, lin
 	x = x !== undefined ? x : page.getWidth() / 2
 	y = y !== undefined ? y : page.getHeight() / 2
 	color = color ? color : rgb(0, 0, 0)
-	lineHeight = lineHeight ? lineHeight : 1.14
 	centerOption = centerOption !== undefined ? centerOption : centerOptions.BOTH
 	
 	text = breakLinesPdf(text, font, fontSize, maxWidth)

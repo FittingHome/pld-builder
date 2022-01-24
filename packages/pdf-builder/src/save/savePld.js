@@ -3,7 +3,7 @@ const log = require('#src/utils/log')
 
 /**
  * @typedef PldNameParams
- * @prop {string} date - formatted like so : YYYY/MM or MM/YYYY
+ * @prop {import('@pld-builder/core/types/data').MonthDate} date
  * @prop {string} name
  * @prop {number} promotionYear
  * @prop {string} version
@@ -13,11 +13,7 @@ const log = require('#src/utils/log')
  * @param {PldNameParams} _
  */
 function computePldFilename({ name, promotionYear, date, version }) {
-	const [year, month] = date.split('/')
-
-	const formattedDate = year.length === 4 ? `${year}${month}` : `${month}${year}`
-
-	return `${promotionYear}_PLD_${name.split(' ').join('_')}_${formattedDate}${version}`
+	return `${promotionYear}_PLD_${name.split(' ').join('_')}_${date.year}${date.month}${version}`
 }
 
 /**

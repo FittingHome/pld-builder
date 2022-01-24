@@ -47,9 +47,10 @@ function drawPldDeliveryCard(page, { data, font, yPos }) {
 		return log.warn((`Can't find any sections in deliverable '${chalk.bold(data.name)}'`))
 	}
 
-	if (sections.length < 2) {
-		return log.warn((`'${chalk.bold(data.name)}' delivery must have at least two sections to appear in the PLD`))
-	}
+	// - Sometimes you only need one section so...
+	// if (sections.length < 2) {
+	// 	return log.warn((`'${chalk.bold(data.name)}' delivery must have at least two sections to appear in the PLD`))
+	// }
 
 	const { xMargin, xGap, rectangle, totalWidth } = _computeDeliveryCardDimension(page, sections.length)
 	const bigRectangleHeight = rectangle.height * 1.2

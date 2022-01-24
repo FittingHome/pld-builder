@@ -12,29 +12,10 @@ const elements = {
 }
 
 /**
- * 
- * @param {import('pdf-lib').PDFPage} page 
- * @param {*} _
- * @param {number} _.x bottom left corner of the rectangle (not its shadow)
- * @param {number} _.y bottom left corner of the rectangle (not its shadow)
- * @param {number} _.width
- * @param {number} _.height
- */
-// function drawRectangleWithShadow(page, { x, y, color, width, height }) {
-// 	page.drawRectangle({
-// 		x: x + 1, y: y - 2, color: rgbCustom(elements.shadow), width, height
-// 	})
-// 	page.drawRectangle({
-// 		x, y, color, width, height
-// 	})
-// }
-
-
-/**
  * Draw the flowchart row of rectangle
  * @param {import('pdf-lib').PDFPage} page
  * @param {object} _
- * @param {import('@pld-builder/core/types/data').RankedUserStory} _.data
+ * @param {import('@pld-builder/core/types/data').CompleteUserStory} _.data
  * @param {import('pdf-lib').PDFFont} _.font
  * @param {number} _.yPos
  */
@@ -172,7 +153,7 @@ function drawPldUserStory(page, { data, font, yPos }) {
 			fontHeightFactor: 1.5
 		},
 		{
-			text: "???",
+			text: data.assignedTo,
 			x: xStart + totalWidth / 2,
 			y,
 			color: rgbCustom(elements.p2),
@@ -182,13 +163,12 @@ function drawPldUserStory(page, { data, font, yPos }) {
 			fontHeightFactor: 1.5,
 		}
 	])
-
 }
 
 /**
  * 
- * @param {string} text 
- * @param {object} _ 
+ * @param {string} text
+ * @param {object} _
  * @param {number} _.maxWidth - the max width the text can occupied
  * @param {import('pdf-lib').PDFFont} _.font
  * @param {number} _.fontSize
@@ -205,7 +185,6 @@ function computeHeightOfText(text, {maxWidth, font, fontSize, fontHeightFactor =
  * 
  * @param {import('pdf-lib').PDFPage} page
  * @param {import('@pld-builder/core/types/data').TextSection} txtSection
-
  * @returns {number} height drawn
  */
 function _drawSection(page, { text, x, y, width, height, color, font, fontSize, fontColor, fontHeightFactor = 1, lineHeight = 1.14 }) {

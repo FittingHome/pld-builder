@@ -39,16 +39,29 @@ function breakLinesPdf (
 		if (font.widthOfTextAtSize(paragraph, fontSize) > maxWidth) {
 			const words = paragraph.split(' ')
 			/** @type {string[][]} */
-			const newParagraph = []
+			const newParagraph = [[]]
 			let i = 0
-			newParagraph[i] = []
-			for (const word of words) {
+			let w = 0
+			while (w < words.length) {
+				const word = words[w]
 				newParagraph[i].push(word)
-				if (font.widthOfTextAtSize(newParagraph[i].join(' '), fontSize) > maxWidth) {
-					newParagraph[i].splice(-1)
+
+				const newParagraphLength = font.widthOfTextAtSize(newParagraph[i].join(' '), fontSize)
+				if (newParagraphLength > maxWidth) {
+					// - Cas ultra spécifique du lien hypertexte trop long
+					if (newParagraph[i].length === 1) {
+						// const charWidth = newParagraphLength / newParagraph[i][0].length
+						const nbCharToSplice = Math.floor(newParagraph[i][0].length * maxWidth / newParagraphLength)
+						newParagraph[i][0] = word.substr(0, nbCharToSplice)
+						words.splice(w + 1, 0, word.slice(nbCharToSplice))
+						w++
+					} else {
+						newParagraph[i].splice(-1)
+					}
 					newParagraph[++i] = []
-					newParagraph[i].push(word)
+					continue
 				}
+				w++
 			}
 			paragraphs[index] = newParagraph.map((p) => p.join(' ')).join('\n')
 		}

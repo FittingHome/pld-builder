@@ -24,19 +24,23 @@ const { savePld } = require('./src/save/savePld');
 
 /**
  * 
- * @param {import('@pld-builder/core/types/data').PldData} pldData 
- * @param {string} date 
+ * @param {import('@pld-builder/core/types/data').PldData} pldData
+ * @param {object} _
+ * @param {import('@pld-builder/core/types/data').MonthDate} _.date
+ * @param {string} _.version
  */
 async function buildPld(pldData, { date, version }) {
 	const nbDeliverables = pldData.deliverables.length;
-	log.trace({ nbDeliverables });
+	log.info({ nbDeliverables, date });
 
 	const pdfDoc = await PDFDocument.create()
 	const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica)
 
 	await drawPld(pdfDoc, {
+		date,
 		font: helveticaFont,
-		pldData
+		pldData,
+		version
 	});
 
 	await savePld(pdfDoc, {
@@ -47,10 +51,31 @@ async function buildPld(pldData, { date, version }) {
 }
 
 const options = require('./src/options');
+const { rgbCustom } = require('./src/utils');
 log.trace({ options })
 if (!options.input) {
 	log.fatal("Input option is missing. Launch with '-h' for more info")
 	exit(1)
+}
+
+/**
+ * @param {string} date
+ * @returns {import('@pld-builder/core/types/data').MonthDate}
+ */
+function parseDate(date) {
+	const [year, month] = date.split('/')
+
+	const dateObj = year.length === 4 ? { year, month }
+		: { year: month, month: year }
+
+	dateObj.year = parseInt(dateObj.year)
+	dateObj.month = parseInt(dateObj.month)
+
+	if (Number.isNaN(dateObj.year) || Number.isNaN(dateObj.month) || month < 1 || month > 12) {
+		throw `Invalid date. Run with --help for more info on how to format it`
+	}
+
+	return dateObj
 }
 
 fs.readFile(options.input, 'utf8', async (err, data) => {
@@ -60,7 +85,7 @@ fs.readFile(options.input, 'utf8', async (err, data) => {
 	}
 	try {
 		await buildPld(JSON.parse(data), {
-			date: options.date,
+			date: parseDate(options.date),
 			version: options.version
 		})
 	} catch (err) {

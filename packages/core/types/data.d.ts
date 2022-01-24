@@ -6,6 +6,11 @@ export interface PldData {
 	members: Member[]
 }
 
+export interface User {
+	id: string
+	name: string
+}
+
 export interface Member {
 	pseudo: string
 	fullname: string
@@ -19,7 +24,7 @@ export interface Deliverable {
 
 export interface Section {
 	name: string
-	stories: UserStory[]
+	stories: CompleteUserStory[]
 }
 
 export interface UserStory {
@@ -37,11 +42,16 @@ export interface RankedUserStory extends UserStory {
 	id: number
 }
 
+export interface CompleteUserStory extends RankedUserStory {
+	assignedTo: string
+}
+
 export interface AssignedUserStory extends UserStory {
 	secId: number
 	id: number
 	assignedTo: string
 }
+
 
 export interface TextSection {
 	text: string
@@ -55,4 +65,9 @@ export interface TextSection {
 	fontColor: import('pdf-lib').RGB
 	fontHeightFactor: number,
 	lineHeight: number
+}
+
+export interface MonthDate {
+	month: number
+	year: number
 }

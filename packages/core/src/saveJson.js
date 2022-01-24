@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { optionalAppend } = require('@pld-builder/core/src/string');
+const { optionalAppend } = require('./string');
 
 /**
  * @param {string} json
@@ -16,7 +16,7 @@ function saveJsonOnDisk(json, path) {
 		if (err) throw err;
 		console.log(`${fullpath} has been saved!`)
 	}
-	fs.writeFile(fullpath, json, 'utf8', callback);
+	fs.writeFileSync(fullpath, json, 'utf8', callback);
 }
 
 module.exports = {

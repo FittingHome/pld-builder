@@ -1,7 +1,7 @@
 {
   "name": "trello-scrapper",
   "version": "1.0.0",
-  "description": "",
+  "description": "Construct a pld data json from a trello board",
   "main": "index.js",
   "scripts": {
     "dev": "node index.js",

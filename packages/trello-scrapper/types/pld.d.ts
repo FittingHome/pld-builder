@@ -5,6 +5,7 @@ export interface PropertiesEmoji {
 export interface IndexListPropertiesEmoji extends PropertiesEmoji {
 	description: string
 	cards: string
+	features: string
 }
 
 export interface UserStoryPropertiesEmoji extends PropertiesEmoji {
@@ -26,4 +27,5 @@ export interface UserStoryDescriptionProperties {
 export interface IndexListDescriptionProperties {
 	description: string
 	sections: string[]
+	features: string
 }

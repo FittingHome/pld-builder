@@ -1,7 +1,7 @@
-const fs = require('fs')
+const fs = require('fs-extra')
 const fetch = require('node-fetch')
 const path = require('path')
-const { log } = require('@pld-builder/core')
+const { log, optionalAppend } = require('@pld-builder/core')
 
 const apiBaseUrl = "https://api.trello.com/1"
 const trelloCredentials = `key=${process.env.TRELLO_API_KEY}&token=${process.env.TRELLO_SERVER_TOKEN}`
@@ -58,10 +58,16 @@ async function fetchElementFromId(element, id) {
 
 /**
  * 
- * @param {string} downloadUrl 
+ * @param {string} downloadUrl
+ * @param {object} _
+ * @param {string} _.imgName
+ * @param {string} [_.folderPath]
  * @returns {Promise<boolean>} works or not
  */
-async function downloadImageFromAttachment(downloadUrl, imgName) {
+async function downloadImageFromAttachment(downloadUrl, {imgName, folderPath}) {
+	// - Put default value to folderPath if it wasn't pass as parameter
+	folderPath = !folderPath ? "./" : folderPath
+
 	try {
 		const json = await fetch(`${downloadUrl}?${trelloCredentials}`, {
 			method: 'GET',
@@ -72,7 +78,8 @@ async function downloadImageFromAttachment(downloadUrl, imgName) {
 			log.trace(
 				`Response: ${response.status} ${response.statusText}`
 			)
-			response.body.pipe(fs.createWriteStream(`./${imgName}${path.parse(downloadUrl).ext}`))
+			fs.ensureDirSync(folderPath)
+			response.body.pipe(fs.createWriteStream(`${optionalAppend(folderPath, '/')}${imgName}${path.parse(downloadUrl).ext}`))
 			return true
 		})
 	} catch (e) {

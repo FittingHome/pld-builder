@@ -1,10 +1,8 @@
 const {
 	extractUserStoryIdAndNameFromCardName,
-	extractFirstMarkdownEmojiFromLine,
 	extractMainInfosFromCardDesc,
 	extractMeaningulArrayFromString,
 	// extractUserStoryPropertiesEmojiFromTemplateCard,
-	extractEmojisFromDescription,
 } = require('#src/trelloExtractor')
 
 const {
@@ -12,13 +10,14 @@ const {
 	convertNoisyInfosToUserStoryInfos,
 } = require('#src/trelloConverter')
 
-const usEmojis = require('./res/usEmojis')
-const indexEmojis = require('./res/indexEmojis')
+const usEmojis = require('../res/usEmojis')
+const indexEmojis = require('../res/indexEmojis')
 
 console.log(usEmojis)
 
 const classicUserStory = `#I want :eyes:
 To break free
+
 ---
 
 #Description :book:
@@ -51,20 +50,6 @@ test('must fail to parse and return null', () => {
 	expect(extractUserStoryIdAndNameFromCardName("1.b Choose the best tools")).toBeNull()
 	expect(extractUserStoryIdAndNameFromCardName("1 Choose the best tools")).toBeNull()
 })
-
-test("must return null cause it can't find the emoji", () => {
-	expect(extractFirstMarkdownEmojiFromLine("The quick brown fox")).toBeNull()
-	expect(extractFirstMarkdownEmojiFromLine("The quick: brown fox")).toBeNull()
-	expect(extractFirstMarkdownEmojiFromLine("The quick: brown: fox")).toBeNull()
-	expect(extractFirstMarkdownEmojiFromLine("")).toBeNull()
-})
-
-test("must return the first emoji found", () => {
-	expect(extractFirstMarkdownEmojiFromLine("The :quick: :brown: fox")).toEqual("quick")
-	expect(extractFirstMarkdownEmojiFromLine("The :quick :brown :fox:")).toEqual("fox")
-})
-
-
 
 test("should extract main information from card description", () => {
 	expect(extractMainInfosFromCardDesc(classicUserStory, usEmojis, convertNoisyInfosToUserStoryInfos)).toEqual({
@@ -169,69 +154,4 @@ test("should extract nothing because there aren't any lines with alphanumeric", 
 	__
 	()
 `)).toEqual([])
-})
-
-/** @type {import('#types/trello').Card} */
-const templateCard = {
-	desc: `
-#Je veux :eyes:
-...
-
----
-
-#Description :book:
-...
-
----
-
-#Definition of Done :pencil:
-- ...
-- ...
-
----
-
-... J/H :hourglass:
----
-`,
-	isTemplate: true
-}
-
-const expectedUserStoryProperties = Object.freeze(["wantTo", "description", "DoD", "estimatedTime"])
-const expectedIndexProperties = Object.freeze(["description", "cards"])
-
-// test("should extract user story related emoji from the template card description", () => {
-// 	expect(extractUserStoryPropertiesEmojiFromTemplateCard(templateCard)).toEqual({
-// 		wantTo: "eyes",
-// 		description: "book",
-// 		DoD: "pencil",
-// 		estimatedTime: "hourglass",
-// 	})
-// })
-
-test("shouldn't extract user story related emoji because emojis are missing", () => {
-	expect(extractEmojisFromDescription({description: `
-		:eyes:
-		:book:
-		:paperclip:
-		:paperclip:
-	`, expectedProperties: expectedUserStoryProperties})).toBeNull()
-})
-
-test("should extract index list related emoji", () => {
-	expect(extractEmojisFromDescription({
-		description: `
-#Description :book:
-...
-
----
-
-#Cartes :paperclip:
-1. ...
-2. ...
-3. ...
-	`, expectedProperties: expectedIndexProperties
-	})).toEqual({
-		description: "book",
-		cards: "paperclip"
-	})
 })

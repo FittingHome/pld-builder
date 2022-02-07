@@ -1,4 +1,4 @@
-const { log, isCharacterALetter } = require('@pld-builder/core')
+const { log, isCharacterALetter, invertObject } = require('@pld-builder/core')
 
 /**
  * 
@@ -14,7 +14,8 @@ function extractFirstMarkdownEmojiFromLine(line) {
 
 		for (i = firstColonPos + 1; line[i]; i++) {
 			if (line[i] === ':') {
-				return line.substr(firstColonPos + 1, i - firstColonPos - 1)
+				const startPos = firstColonPos + 1
+				return line.substring(startPos, startPos + i - firstColonPos - 1)
 			}
 
 			if (!isCharacterALetter(line[i])) {
@@ -53,7 +54,6 @@ function extractMainInfosFromCardDesc(desc, emojisToProp, cleanerFunc) {
 	const result = {}
 
 	const txt = extractMeaningulArrayFromString(desc)
-	// log.debug(txt);
 
 	let currentEmoji = ""
 	let currentProperty = ""
@@ -99,7 +99,7 @@ function extractUserStoryIdAndNameFromCardName(name) {
 
 	const spaceId = name.indexOf(' ')
 
-	const ids = name.substr(0, spaceId)
+	const ids = name.substring(0, spaceId)
 	const idsSplit = ids.split('.')
 
 	if (idsSplit.length > 2) return _errorMsg(name)
@@ -110,7 +110,7 @@ function extractUserStoryIdAndNameFromCardName(name) {
 	result.id = parseInt(idsSplit[1])
 	if (isNaN(result.id)) return _errorMsg(name)
 
-	result.name = name.substr(spaceId + 1)
+	result.name = name.substring(spaceId + 1)
 	return result
 }
 
@@ -145,9 +145,10 @@ function _checkPropertiesToEmojisAreValid(propertiesToEmoji, expectedProperties)
  * @param {object} _
  * @param {string} _.description
  * @param {readonly string[]} _.expectedProperties
+ * @param {boolean} [_.acceptMissingEmojis]
  * @returns {import('#types/pld').PropertiesEmoji?}
  */
-function extractEmojisFromDescription({description, expectedProperties}) {
+function extractEmojisFromDescription({description, expectedProperties, acceptMissingEmojis = false}) {
 	const result = {}
 	const txt = extractMeaningulArrayFromString(description)
 
@@ -160,7 +161,7 @@ function extractEmojisFromDescription({description, expectedProperties}) {
 		}
 	})
 
-	if (!_checkPropertiesToEmojisAreValid(result, expectedProperties)) {
+	if (!acceptMissingEmojis && !_checkPropertiesToEmojisAreValid(result, expectedProperties)) {
 		return null
 	}
 

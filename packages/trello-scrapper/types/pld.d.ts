@@ -27,5 +27,5 @@ export interface UserStoryDescriptionProperties {
 export interface IndexListDescriptionProperties {
 	description: string
 	sections: string[]
-	features: string
+	features: string[]
 }

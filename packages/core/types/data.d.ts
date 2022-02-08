@@ -12,14 +12,18 @@ export interface User {
 }
 
 export interface Member {
-	pseudo: string
+	id: string
 	fullname: string
-	attributions: string[] // Example ["1.1", "2.4", "4.2"]
+	pseudo: string
+	at: string
+	timeAssigned: number
+	// assignments: string[] // Example ["1.1", "2.4", "4.2"]
 }
 
 export interface Deliverable {
 	name: string
 	sections: Section[]
+	features?: string[]
 }
 
 export interface Section {

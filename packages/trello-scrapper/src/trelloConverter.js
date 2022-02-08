@@ -69,10 +69,6 @@ async function convertTrelloMainIndexCardToData(card, { downloadAttachmentsFolde
  */
 function convertTrelloDeliverableIndexCardToData(card, emojisToProp) {
 	return extractMainInfosFromCardDesc(card.desc, emojisToProp, convertNoisyInfosToIndexListInfos)
-	// const mainInfos = extractMainInfosFromCardDesc(card.desc, emojisToProp, convertNoisyInfosToIndexListInfos)
-	// if (!mainInfos) return null
-
-	// return mainInfos
 }
 
 /**
@@ -182,7 +178,7 @@ async function convertTrelloListToDeliverable({ list, usEmojis, indexEmojis }) {
 	try {
 		const sections = []
 		const name = list.name.replace('[', '').replace(']', '')
-		const features = []
+		let features = []
 
 
 		const cards = await fetchCardsFromList(list.id)
@@ -202,6 +198,8 @@ async function convertTrelloListToDeliverable({ list, usEmojis, indexEmojis }) {
 						stories: []
 					})
 				})
+
+				features = data.features
 
 				if (card.idMembers.length === 1) {
 					sectionAssignedMemberId = card.idMembers[0]
@@ -279,8 +277,8 @@ function convertNoisyInfosToIndexListInfos({ description, sections, features }) 
 		description.shift()
 	}
 
-	if (description) {
-		description.shift()
+	if (features) {
+		features.shift()
 	}
 
 	return {
